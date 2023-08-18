@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-white">
+    <h1 class="text-8xl font-bold text-red-700 bg-gray-900 text-center py-4">
+        Valorent Charcters
+    </h1>
+    <div id="container" class="w-full grid grid-cols-3 gap-8 p-9 justify-center ">
+        <!-- <div id="container" class="w-full h-full ">
+            <div class="w-full h-full p-2 bg-black rounded-lg text ">
+                <div class="w-full">
+        <img class="w-full" src="https://media.valorant-api.com/agents/e370fa57-4757-3604-3648-499e1f642d3f/displayicon.png">
+                </div>
+               <div class=" text-white text-lg">
+                <h1 class="font-bold">Gekko</h1>
+                <p>Description:rgujhdygtygftftr</p>
+               </div>
+                  
+            <div class="w-full grid grid-cols-2 mt-2">
+                <div class="flex flex-col items-center p-1">
+                    <img class="w-50" src="https://media.valorant-api.com/agents/e370fa57-4757-3604-3648-499e1f642d3f/abilities/ability1/displayicon.png">
+                    <p class="text-white bg-gray-200">anjali</p>
+                </div>
+            </div>
+              </div>
+            </div> -->
+            
+            </div>
+     
+   
+
+     <script>
+        var d = document.getElementById('container');
+        fetch("https://valorant-api.com/v1/agents")
+            .then(function (res) {
+                res.json().then(function (data) {
+                    // console.log(data);
+                    data.data.forEach(function (agents) {
+            var abt=`
+        <div class="flex flex-col items-center p-1">
+            <img class="w-50" src="${agents.abilities.displayIcon}">
+            <p class="text-white">${agents.displayName}</p>
+        </div>`
+        var abilities="";
+        agents.abilities.forEach(function(a){
+            abilities+=`
+        <div class="flex flex-col items-center p-1 bg-gray-600 m-1 rounded">
+            <img class="w-3" src="${a.displayIcon}">
+            <p class="text-white ">${a.displayName}</p>
+        </div>`;
+        });
+    
+         var t = `<div id="container" class="w-full h-full ">
+    <div class="w-full h-full p-2 bg-black rounded-lg text ">
+        <div class="w-full">
+<img class="w-full" src="${agents.displayIcon}"
+        </div>
+       <div class=" text-white text-lg">
+        <h1 class="font-bold text-center text-3xl p-3">${agents.displayName}</h1>
+        <p>Description:${agents.description}</p>
+       </div>
+          
+     <div class="w-full grid grid-cols-2 mt-2">
+         ${abilities}
+    </div>
+    <audio controls>
+                <source src="${agents.voiceLine.mediaList[0].wave}" type="audio/wav">
+            </audio>
+      </div>
+    </div>
+    </div>`
+                        if (agents.isPlayableCharacter == true) {
+                            d.innerHTML = d.innerHTML + t;
+                        }
+                        console.log(agents);
+                    });
+                });
+            });
+
+    </script> 
+</body>
+
+</html>
